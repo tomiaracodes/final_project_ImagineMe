@@ -12,10 +12,10 @@ It will be geared towards book characters specifically written by African author
 
 # Training Details for Textual Inversion
 Training on three different groups (men, women and groups of people) was performed using huggingface's Textual Inversion Colab notebook. 
-Learning Rate: 5e-04
-Max train steps: 2000
-Save steps: 250
-Batch size: 1
+- Learning Rate: 5e-04
+- Max train steps: 2000
+- Save steps: 250
+- Batch size: 1
 
 Embeddings were generated for each training group. 
 
