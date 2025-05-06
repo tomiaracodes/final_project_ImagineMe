@@ -1,0 +1,88 @@
+This notebook shows the application of TI to the base diffusion model. 
+
+!pip install diffusers transformers accelerate
+
+import torch
+from diffusers import StableDiffusionPipeline
+import pandas as pd
+import os
+
+# Setup
+csv_path = "/content/character_metadata.csv"
+embeddings_dir = "/content/embeddings"
+output_dir = "/content/generated_characters"
+os.makedirs(output_dir, exist_ok=True)
+
+# Load CSV
+df = pd.read_csv(csv_path)
+# Clean up column names: lowercase, strip spaces, replace spaces with underscores
+df.columns = [col.strip().lower().replace(" ", "_") for col in df.columns]
+
+print(df.columns.tolist())  # Check if 'character_name' now shows up correctly
+
+
+
+# Load SD pipeline
+pipe = StableDiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2",
+    torch_dtype=torch.float16
+).to("cuda")
+
+# Default negative prompt
+DEFAULT_NEGATIVE = (
+    "blurry, low quality, unrealistic, white man, asian man, doll-like, painting, 3D, extra fingers, watermark, nudity"
+)
+
+# Directory with embeddings
+embeddings_dir = "/content/embeddings"
+
+# Load all embeddings
+from glob import glob
+for path in glob(f"{embeddings_dir}/*.bin"):
+    token = "<" + os.path.splitext(os.path.basename(path))[0] + ">"
+    pipe.load_textual_inversion(path, token=token)
+    print(f"Loaded: {token}")
+
+# Image generation
+def generate_image(row):
+    token = row["token_name"]
+    prompt = f"A realistic portrait of {token}, {row['character_description']}"
+    image = pipe(prompt=prompt, negative_prompt=DEFAULT_NEGATIVE, num_inference_steps=50).images[0]
+
+    filename = f"{row['character_id']}_{row['character_name'].replace(' ', '_')}.png"
+    image_path = os.path.join(output_dir, filename)
+    image.save(image_path)
+    return image_path
+
+# all characters
+for _, row in df.iterrows():
+    print(f"Generating for {row['character_name']} ({row['token_name']})...")
+    try:
+        path = generate_image(row)
+        print(f"Saved: {path}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+from diffusers import StableDiffusionPipeline
+import torch
+
+pipe = StableDiffusionPipeline.from_pretrained(
+    "stabilityai/stable-diffusion-2-1",
+    torch_dtype=torch.float16
+).to("cuda")
+# Upload your .safetensors or .bin LoRA file
+# from google.colab import files
+# uploaded = files.upload()
+
+Example prompt:
+
+How you load your new embeddings to another model:
+
+from diffusers import StableDiffusionPipeline
+import torch
+import matplotlib.pyplot as plt
+
+!pip show torch
+
+model_id1 =
+model_id2 =
