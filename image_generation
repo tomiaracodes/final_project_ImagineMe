@@ -54,7 +54,7 @@ def generate_image(row):
     image.save(image_path)
     return image_path
 
-# all characters
+# generate images of all characters in csv
 for _, row in df.iterrows():
     print(f"Generating for {row['character_name']} ({row['token_name']})...")
     try:
@@ -63,26 +63,3 @@ for _, row in df.iterrows():
     except Exception as e:
         print(f"Error: {e}")
 
-from diffusers import StableDiffusionPipeline
-import torch
-
-pipe = StableDiffusionPipeline.from_pretrained(
-    "stabilityai/stable-diffusion-2-1",
-    torch_dtype=torch.float16
-).to("cuda")
-# Upload your .safetensors or .bin LoRA file
-# from google.colab import files
-# uploaded = files.upload()
-
-Example prompt:
-
-How you load your new embeddings to another model:
-
-from diffusers import StableDiffusionPipeline
-import torch
-import matplotlib.pyplot as plt
-
-!pip show torch
-
-model_id1 =
-model_id2 =
