@@ -144,7 +144,10 @@ You can also load your own training images from google drive or upload them to c
 from google.colab import drive
 drive.mount('/content/gdrive')
 
-#@markdown `images_path` is a path to directory containing the training images. It could
+#@markdown `images_path` is a path to directory containing the training images.
+
+'''Enter actual path, this run was for the images of women. A different training run was performed and images loaded for the men'''
+
 images_path = "/content/women" #@param {type:"string"}
 while not os.path.exists(str(images_path)):
   print('The images_path specified does not exist, use the colab file explorer to copy the path :')
