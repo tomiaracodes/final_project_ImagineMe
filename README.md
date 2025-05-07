@@ -7,7 +7,7 @@ The scope of the project has changed to zeroing in on African characters due to 
 
 # General Diffusion Pipeline
 A CSV file, created manually by author, will serve as the training data and includes Character Name, Book, Author, ISBN, Character Description, and Character ID.
-Based on finetuning specified below, images generated should be more realistic than state-of-the-art tools provide.
+Based on finetuning specified below, images generated should be more realistic for this particular ethnic group than state-of-the-art tools provide.
 It will be geared towards book characters specifically written by African authors. Reducing stereotypes or eurocentric representations of Africans.
 
 # Training Details for Textual Inversion
